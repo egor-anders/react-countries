@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Wrapper = styled.section`
   margin-top: 3rem;
@@ -89,29 +89,28 @@ const Tag = styled.span`
 export const Info = (props) => {
   const {
     name,
-    nativeName,
-    flag,
+    flags,
     capital,
     population,
     region,
     subregion,
-    topLevelDomain,
+    tld,
     currencies = [],
-    languages = [],
+    languages = {},
     borders = [],
     push,
   } = props;
 
   return (
     <Wrapper>
-      <InfoImage src={flag} alt={name} />
+      <InfoImage src={flags.png} alt={name.common} />
 
       <div>
-        <InfoTitle>{name}</InfoTitle>
+        <InfoTitle>{name.common}</InfoTitle>
         <ListGroup>
           <List>
             <ListItem>
-              <b>Native Name:</b> {nativeName}
+              <b>Official Name:</b> {name.official}
             </ListItem>
             <ListItem>
               <b>Population</b> {population}
@@ -125,24 +124,26 @@ export const Info = (props) => {
             <ListItem>
               <b>Capital:</b> {capital}
             </ListItem>
+            <ListItem>
+              <b>Languages:</b>{" "}
+              {Object.keys(languages)
+                .map((el) => {
+                  return languages[el];
+                })
+                .join(", ")}
+            </ListItem>
           </List>
           <List>
             <ListItem>
-              <b>Top Level Domain</b>{' '}
-              {topLevelDomain.map((d) => (
+              <b>Top Level Domain</b>{" "}
+              {tld.map((d) => (
                 <span key={d}>{d}</span>
               ))}
             </ListItem>
             <ListItem>
-              <b>Currency</b>{' '}
-              {currencies.map((c) => (
-                <span key={c.code}>{c.name} </span>
-              ))}
-            </ListItem>
-            <ListItem>
-              <b>Top Level Domain</b>{' '}
-              {languages.map((l) => (
-                <span key={l.name}>{l.name}</span>
+              <b>Currency</b>{" "}
+              {Object.keys(currencies).map((c) => (
+                <span key={currencies[c].symbol}>{currencies[c].name} </span>
               ))}
             </ListItem>
           </List>
@@ -153,7 +154,7 @@ export const Info = (props) => {
             <span>There is no border countries</span>
           ) : (
             <TagGroup>
-              {[].map((b) => (
+              {borders.map((b) => (
                 <Tag key={b} onClick={() => push(`/country/${b}`)}>
                   {b}
                 </Tag>
